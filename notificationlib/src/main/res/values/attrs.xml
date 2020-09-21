@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="QuickMenuLayout">
+        <attr name="DragView" format="reference" />
+        <attr name="State" format="enum">
+            <enum name="expanded" value="0" />
+            <enum name="collapsed" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>

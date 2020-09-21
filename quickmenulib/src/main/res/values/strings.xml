@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">systemuilib</string>
+    <string name="none_img">none</string>
+    <string name="android.settings.SETTINGS" tools:ignore="ExtraTranslation">settings</string>
+    <string name="music" tools:ignore="ExtraTranslation">음악</string>
+    <string name="weather" tools:ignore="ExtraTranslation">날씨</string>
+    <string name="recipe" tools:ignore="ExtraTranslation">레시피</string>
+    <string name="voice_call" tools:ignore="ExtraTranslation">영상통화</string>
+    <string name="youtube" tools:ignore="ExtraTranslation">유튜브</string>
+    <string name="timer" tools:ignore="ExtraTranslation">타이머</string>
+    <string name="memo" tools:ignore="ExtraTranslation">메모</string>
+    <string name="pod_cast" tools:ignore="ExtraTranslation">팟캐스트</string>
+    <string name="alarm" tools:ignore="ExtraTranslation">알람</string>
+    <string name="education" tools:ignore="ExtraTranslation">교육</string>
+    <string name="dictionary" tools:ignore="ExtraTranslation">사전</string>
+    <string name="schedule" tools:ignore="ExtraTranslation">일정</string>
+</resources>

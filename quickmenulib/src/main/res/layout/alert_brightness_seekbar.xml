@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:layout_width="590dp"
+        android:layout_height="112dp"
+        android:background="@drawable/roundrect_background"
+        tools:ignore="MissingConstraints" />
+    <ImageView
+        android:id="@+id/alert_seek_bar_img"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:textColor="@android:color/black"
+        android:src="@drawable/btn_brightness_alert"
+        android:layout_marginStart="42dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="48dp" />
+
+    <SeekBar
+        android:id="@+id/alert_brightness_seek_bar"
+        android:max="10"
+        android:background="@null"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:thumb="@null"
+        android:layout_width="358dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="87dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

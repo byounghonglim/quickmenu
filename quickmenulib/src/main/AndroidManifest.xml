@@ -1,0 +1,39 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.byounghong.quickmenulib" >
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <application
+        >
+        <service
+            android:name="com.byounghong.quickmenulib.QuickMenuService"
+            android:screenOrientation="landscape"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.byounghong.quickmenulib.QuickMenuService"/>
+                <category android:name="agent"/>
+            </intent-filter>
+            <intent-filter>
+                <data android:host="sleepmode" android:scheme="byounghong.launcher" />
+            </intent-filter>
+        </service>
+        <receiver android:name="com.byounghong.quickmenulib.receiver.RestartServiceReceiver"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.RESTART"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

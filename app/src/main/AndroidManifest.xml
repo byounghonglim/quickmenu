@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.byounghong.lim.main">
+
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+    <application
+        android:allowBackup="true"
+        android:usesCleartextTraffic="true"
+        android:supportsRtl="true"
+        android:theme="@style/NoActionAppTheme">
+        <activity
+            android:name="com.byounghong.lim.main.views.main.activities.MainActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat"
+            android:launchMode="singleTop"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.byounghong.lim.main.receiver.RestartServiceReceiver"
+            android:enabled="true"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.RESTART"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

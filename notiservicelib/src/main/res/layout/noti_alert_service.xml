@@ -1,0 +1,248 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="service"
+            type="com.byounghong.notiservicelib.NotiService" />
+        <variable
+            name="lm"
+            type="com.byounghong.notiservicelib.model.NotiLayoutViewModel" />
+        <variable
+            name="title"
+            type="java.lang.String" />
+        <variable
+            name="text"
+            type="java.lang.String" />
+        <variable
+            name="status"
+            type="java.lang.String" />
+        <variable
+            name="date"
+            type="java.lang.String" />
+        <variable
+            name="time"
+            type="java.lang.String" />
+    </data>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/noti_layout"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:onClick="@{(v)-> service.closeNotification(lm.isShowApp().getValue())}"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/top_box"
+            >
+            <ImageView
+                android:id="@+id/noti_popup_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_stat_notify_alert"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="84dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="84dp" />
+            <ImageView
+                android:id="@+id/noti_popup_devider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/title_bar"
+                android:layout_toRightOf="@id/noti_popup_img"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                />
+
+            <TextView
+                android:id="@+id/noti_items_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/noti_popup_devider"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:singleLine="true"
+                android:textSize="25dp"
+                android:text="@{title}"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textColor="#222222"
+                android:visibility="@{lm.isItemsLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/noti_items_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="96dp"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textSize="18dp"
+                android:text="@{status}"
+                android:singleLine="true"
+                android:textColor="#ba006b"
+                android:visibility="@{lm.isItemsLayout().getValue() ? View.VISIBLE:View.GONE}"
+            />
+            <TextView
+                android:id="@+id/noti_items_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toRightOf="@id/noti_items_title"
+                android:layout_toLeftOf="@id/noti_items_status"
+                android:singleLine="true"
+                android:textSize="30dp"
+                android:text="@{text}"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:layout_marginLeft="12dp"
+                android:textColor="#222222"
+                android:visibility="@{lm.isItemsLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+
+            <TextView
+                android:id="@+id/noti_device_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/noti_popup_devider"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:textSize="25dp"
+                android:text="@{title}"
+                android:singleLine="true"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textColor="#ba006b"
+                android:visibility="@{lm.isDeviceLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/noti_device_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="96dp"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textSize="18dp"
+                android:text="@{status}"
+                android:textColor="#949494"
+                android:singleLine="true"
+                android:visibility="@{lm.isDeviceLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/noti_schedule_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/noti_popup_devider"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:textSize="25dp"
+                android:text="@{title}"
+                android:singleLine="true"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textColor="#ba006b"
+                android:visibility="@{lm.isScheduleLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <LinearLayout
+                android:id="@+id/noti_schedule_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="96dp"
+                android:gravity="right|center_vertical"
+                android:visibility="@{lm.isScheduleLayout().getValue() ? View.VISIBLE:View.GONE}"
+                >
+                <TextView
+                    android:id="@+id/noti_schedule_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanscjkkrmedium"
+                    android:textSize="16dp"
+                    android:text="@{date}"
+                    android:singleLine="true"
+                    android:textColor="#949494"
+                    />
+                <TextView
+                    android:id="@+id/noti_schedule_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosanscjkkrmedium"
+                    android:textSize="16dp"
+                    android:text="@{time}"
+                    android:singleLine="true"
+                    android:textColor="#949494"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/noti_schedule_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_toRightOf="@id/noti_schedule_title"
+                android:layout_toLeftOf="@id/noti_schedule_layout"
+                android:textSize="30dp"
+                android:text="@{text}"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:layout_marginLeft="12dp"
+                android:textColor="#222222"
+                android:singleLine="true"
+                android:visibility="@{lm.isScheduleLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+            <TextView
+                android:id="@+id/noti_alarm_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="96dp"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:singleLine="true"
+                android:textSize="18dp"
+                android:text="@{date}"
+                android:textColor="#949494"
+                android:visibility="@{lm.isAlarmLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/noti_alarm_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/noti_popup_devider"
+                android:layout_toLeftOf="@id/noti_alarm_date"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:textSize="30dp"
+                android:text="@{title}"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:singleLine="true"
+                android:textColor="#222222"
+                android:visibility="@{lm.isAlarmLayout().getValue() ? View.VISIBLE:View.GONE}"
+                />
+
+            <TextView
+                android:id="@+id/noti_normal_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/noti_popup_devider"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:textSize="25dp"
+                android:text="@{title}"
+                android:singleLine="true"
+                android:fontFamily="@font/notosanscjkkrmedium"
+                android:textColor="#222222"
+                android:visibility="@{lm.isNormalLayout.getValue() ? View.VISIBLE:View.GONE}"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,221 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'                 //Annotation processing을 지원하기 위해 추가
+apply plugin: 'com.fernandocejas.frodo'
+
+def getCurrentFlavor() {
+    String tskReqStr = getGradle().getStartParameter().getTaskRequests().toString()
+
+    Pattern pattern;
+
+    if (tskReqStr.contains("assemble")) {
+        pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    } else if (tskReqStr.contains("lint")) {
+        pattern = Pattern.compile("lint(\\w+)(Release|Debug)")
+    } else {
+        pattern = Pattern.compile("generate(\\w+)(Release|Debug)")
+    }
+
+    Matcher matcher = pattern.matcher(tskReqStr)
+
+    if (matcher.find()) {
+        return matcher.group(1).toLowerCase()
+    } else {
+        println "NO MATCH FOUND"
+        return ""
+    }
+}
+android {
+    dataBinding {
+        enabled = true
+    }
+    dexOptions {
+        javaMaxHeapSize "4g" //specify the heap size for the dex process
+    }
+
+    def configurations = rootProject.ext.configuration_version
+    compileSdkVersion configuration_version.compileSdkVersion
+
+    task copyGoogleServiceJson(type: Copy) {
+//        println "Copy from \"google-services${getCurrentFlavor()}.json\" to \"google-services.json\""
+//        from "${projectDir}"
+//        into "${projectDir}"
+//        include("google-services${getCurrentFlavor()}.json")
+//        rename("google-services${getCurrentFlavor()}.json", 'google-services.json')
+    }
+
+
+
+    defaultConfig {
+        println "flavor = ${getCurrentFlavor()}"
+        preBuild.dependsOn copyGoogleServiceJson
+
+        applicationId configuration_version.appID
+        minSdkVersion configurations.minSdkVersion
+        targetSdkVersion configurations.targetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        setProperty("archivesBaseName", "QuickMemu${configurations.versionNameDev}")
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            applicationId configurations.appID
+            versionCode configurations.appVersionDev
+            versionName configurations.versionNameDev
+            testApplicationId "dev.test"
+
+
+//            buildConfigField "String", 'SERVER_URL', "\"http://ceo.philip.abouthere.kr/\""
+//            buildConfigField "String", 'API_URL', "\"http://ceo.philip.abouthere.kr/\""
+            buildConfigField "String", 'SERVER_URL', "\"http://jsonplaceholder.typicode.com\""
+            buildConfigField "String", 'API_URL', "\"http://jsonplaceholder.typicode.com\""
+//            buildConfigField "String", 'SERVER_URL', "\"https://ceo.goodchoice.kr/\""
+//            buildConfigField "String", 'API_URL', "\"http://ceo.goodchoice.kr/api/\""
+            buildConfigField 'boolean', 'IS_DEV', 'true'
+        }
+        standby{
+            applicationId configurations.appID
+            versionCode configurations.appVersionDev
+            versionName configurations.versionNameDev
+            testApplicationId "dev.test"
+
+            buildConfigField 'boolean', 'IS_DEV', 'true'
+            buildConfigField "String", 'SERVER_URL', "\"http://jsonplaceholder.typicode.com\""
+            buildConfigField "String", 'API_URL', "\"https://standby-ceo.goodchoice.kr/api/\""
+
+        }
+        product {
+            applicationId configurations.appID
+            versionCode configurations.appVersionDev
+            versionName configurations.versionNameDev
+
+            buildConfigField 'boolean', 'IS_DEV', 'false'
+            buildConfigField "String", 'SERVER_URL', "\"https://ceo.goodchoice.kr/\""
+            buildConfigField "String", 'API_URL', "\"http://ceo.goodchoice.kr/api/\""
+        }
+    }
+    kapt {
+        generateStubs = true
+    }
+    buildToolsVersion configuration_version.buildToolsVersion
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath "com.fernandocejas.frodo:frodo-plugin:0.8.3"
+    }
+}
+
+
+frodo {
+    enabled = true
+}
+
+dependencies {
+    def libraries = rootProject.ext.libraries
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation libraries.support_appcompat
+    implementation libraries.constraint_layout
+    implementation libraries.multidex
+    implementation libraries.recyclerview
+    implementation libraries.core_common
+//    implementation libraries.core_core
+    implementation libraries.lifecycle
+    implementation libraries.lifecycle_extensions
+    implementation libraries.lifecycle_livedata
+    implementation libraries.lifecycle_livedata_core
+    implementation libraries.lifecycle_viewmodel
+    implementation libraries.lifecycle_viewmodel_ktx
+
+    implementation libraries.paging
+    implementation libraries.paging_rxjava2
+    implementation libraries.room_common
+    implementation libraries.room_rxjava2
+    implementation libraries.animated_vector
+    implementation libraries.coordinatorlayout
+    annotationProcessor libraries.suppot_annotation
+    implementation libraries.fragment
+    implementation libraries.vectordrawable
+    implementation libraries.webkit
+    implementation libraries.viewpager
+
+//    implementation libraries.kotlin_jre
+    implementation libraries.kotlin_reflect
+    implementation libraries.kotlin_stdlib
+//    implementation libraries.kotlin_unwrap
+
+    implementation libraries.glide
+    annotationProcessor libraries.glide_compiler
+    implementation libraries.picasso
+
+
+    implementation libraries.rxjava
+    implementation libraries.rxandroid
+
+    //for Network
+    implementation libraries.okhttp3
+    implementation libraries.okhttp3_logging
+    implementation libraries.okhttp3_url_connect
+
+    implementation libraries.retrofit
+    implementation libraries.retrofit_gson
+    implementation libraries.retrofit_adapter
+    implementation libraries.retrofit_rxjava
+
+//    //for Dagger
+//    implementation libraries.dagger
+//    kapt libraries.dagger_compiler
+//    //for Dagger with Android
+//    implementation libraries.dagger_android
+//    implementation libraries.dagger_android_sup
+//    kapt libraries.dagger_android_pro
+
+    implementation 'org.koin:koin-android:1.0.2'
+    implementation 'org.koin:koin-androidx-scope:1.0.2'
+    implementation 'org.koin:koin-androidx-viewmodel:1.0.2'
+
+    //for rx
+    implementation libraries.rxbinding
+    implementation libraries.rxbinding_core
+    implementation libraries.rxbinding_appcompact
+    implementation libraries.rxbinding_drawerlayout
+    implementation libraries.rxbinding_recyclerview
+    implementation libraries.rxbinding_swiperefreshlayout
+    implementation libraries.rxbinding_viewpager
+    implementation libraries.rxbinding_material
+
+    implementation libraries.rxrelay
+
+    testImplementation 'junit:junit:4.12'
+
+    implementation project(':quickmenulib')
+    implementation project(':notiservicelib')
+}
+
+
+
+
